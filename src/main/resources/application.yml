@@ -29,3 +29,8 @@ spring:
       jdbc-url: jdbc:h2:mem:batch;mode=mysql
       username: sa
       password:
+      appling :
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:appling;mode=mysql
+        username: sa
+        password:
