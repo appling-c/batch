@@ -20,19 +20,19 @@ import java.util.List;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-public class Statics {
+public class DailyOrderStatics {
     private final StaticsRepository staticsRepository;
 
     @Bean
     public Job staticsJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
-        return new JobBuilder("staticsJob", jobRepository)
+        return new JobBuilder("dailyOrderStaticsJob", jobRepository)
                 .start(staticsStep(jobRepository, transactionManager))
                 .build();
     }
 
     @Bean
     public Step staticsStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
-        return new StepBuilder("staticsStep", jobRepository)
+        return new StepBuilder("dailyOrderStaticsStep", jobRepository)
                 .tasklet(staticsTasklet(), transactionManager)
                 .build();
     }
