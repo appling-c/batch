@@ -1,4 +1,4 @@
-package com.simol.batch.job.test;
+package com.simol.batch.test;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

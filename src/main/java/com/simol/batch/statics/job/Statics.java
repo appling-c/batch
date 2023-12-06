@@ -1,5 +1,6 @@
-package com.simol.batch.job.statics;
+package com.simol.batch.statics.job;
 
+import com.simol.batch.statics.repository.StaticsRepository;
 import com.simol.batch.job.statics.domain.Order;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.List;

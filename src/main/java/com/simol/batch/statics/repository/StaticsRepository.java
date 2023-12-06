@@ -1,4 +1,4 @@
-package com.simol.batch.job.statics;
+package com.simol.batch.statics.repository;
 
 import com.simol.batch.job.statics.domain.Order;
 import com.simol.batch.job.statics.domain.OrderStatus;
