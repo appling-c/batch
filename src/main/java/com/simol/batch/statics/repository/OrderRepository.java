@@ -19,21 +19,17 @@ public class OrderRepository {
 
         applingJdbcTemplate.query("select * from orders where status = 'ORDERED'", rs -> {
             while (rs.next()) {
-                try {
-                    orderList.add(
-                            Order.builder()
-                                    .id(rs.getLong("order_id"))
-                                    .memberId(rs.getLong("member_id"))
-                                    .orderNumber(rs.getString("order_number"))
-                                    .orderName(rs.getString("order_name"))
-                                    .status(OrderStatus.valueOf(rs.getString("status")))
-                                    .modifiedAt(rs.getTimestamp("modified_at").toLocalDateTime())
-                                    .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
-                                    .build()
-                    );
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                orderList.add(
+                        Order.builder()
+                                .id(rs.getLong("order_id"))
+                                .memberId(rs.getLong("member_id"))
+                                .orderNumber(rs.getString("order_number"))
+                                .orderName(rs.getString("order_name"))
+                                .status(OrderStatus.valueOf(rs.getString("status")))
+                                .modifiedAt(rs.getTimestamp("modified_at").toLocalDateTime())
+                                .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
+                                .build()
+                );
             }
         });
 

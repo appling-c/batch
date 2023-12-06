@@ -1,9 +1,11 @@
 package com.simol.batch.statics.job;
 
 import com.simol.batch.statics.domain.OrderItem;
+import com.simol.batch.statics.domain.Product;
 import com.simol.batch.statics.repository.OrderItemRepository;
 import com.simol.batch.statics.repository.OrderRepository;
 import com.simol.batch.job.statics.domain.Order;
+import com.simol.batch.statics.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class DailyOrderStatics {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ProductRepository productRepository;
 
     @Bean
     public Job staticsJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
@@ -47,7 +50,17 @@ public class DailyOrderStatics {
 
             List<Order> orderList = orderRepository.findAllGtNow();
             List<Long> orderIdList = orderList.stream().mapToLong(Order::getId).boxed().collect(Collectors.toList());
-            List<OrderItem> orderItemList = orderItemRepository.findAllByOrderId(orderIdList);
+
+            if(!orderIdList.isEmpty()){
+                List<OrderItem> orderItemList = orderItemRepository.findAllByOrderId(orderIdList);
+                List<Long> orderProductIdList = orderItemList.stream().mapToLong(OrderItem::getOrderProductId).boxed().collect(Collectors.toList());
+
+                List<Product> productList = productRepository.findAllById(orderProductIdList);
+                //todo 옵션 리스트도 불러와야 함
+
+                //todo 옵션 1개를 상품 1개로 봐야 됨
+            }
+
 
             return RepeatStatus.FINISHED;
         };
