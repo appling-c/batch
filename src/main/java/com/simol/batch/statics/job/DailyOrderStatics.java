@@ -1,6 +1,8 @@
 package com.simol.batch.statics.job;
 
-import com.simol.batch.statics.repository.StaticsRepository;
+import com.simol.batch.statics.domain.OrderItem;
+import com.simol.batch.statics.repository.OrderItemRepository;
+import com.simol.batch.statics.repository.OrderRepository;
 import com.simol.batch.job.statics.domain.Order;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +18,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
 public class DailyOrderStatics {
-    private final StaticsRepository staticsRepository;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Bean
     public Job staticsJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
@@ -41,10 +45,9 @@ public class DailyOrderStatics {
         return (contribution, chunkContext) -> {
             log.info("statics job 실행...");
 
-            List<Order> orderList = staticsRepository.get();
-            for(Order order : orderList) {
-                System.out.println("order_id = " + order.getId());
-            }
+            List<Order> orderList = orderRepository.findAllGtNow();
+            List<Long> orderIdList = orderList.stream().mapToLong(Order::getId).boxed().collect(Collectors.toList());
+            List<OrderItem> orderItemList = orderItemRepository.findAllByOrderId(orderIdList);
 
             return RepeatStatus.FINISHED;
         };

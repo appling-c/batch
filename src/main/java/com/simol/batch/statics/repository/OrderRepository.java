@@ -11,13 +11,13 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class StaticsRepository {
+public class OrderRepository {
     private final JdbcTemplate applingJdbcTemplate;
 
-    public List<Order> get() {
+    public List<Order> findAllGtNow() {
         List<Order> orderList = new LinkedList<>();
 
-        applingJdbcTemplate.query("select * from orders", rs -> {
+        applingJdbcTemplate.query("select * from orders where status = 'ORDERED'", rs -> {
             while (rs.next()) {
                 try {
                     orderList.add(
@@ -39,4 +39,5 @@ public class StaticsRepository {
 
         return orderList;
     }
+
 }
