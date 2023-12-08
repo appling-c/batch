@@ -19,19 +19,17 @@ public class OrderRepository {
         List<Order> orderList = new LinkedList<>();
 
         applingJdbcTemplate.query("select * from orders where status = 'ORDERED';", rs -> {
-            while (rs.next()) {
-                orderList.add(
-                        Order.builder()
-                                .id(rs.getLong("order_id"))
-                                .memberId(rs.getLong("member_id"))
-                                .orderNumber(rs.getString("order_number"))
-                                .orderName(rs.getString("order_name"))
-                                .status(OrderStatus.valueOf(rs.getString("status")))
-                                .modifiedAt(rs.getTimestamp("modified_at").toLocalDateTime())
-                                .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
-                                .build()
-                );
-            }
+            orderList.add(
+                    Order.builder()
+                            .id(rs.getLong("order_id"))
+                            .memberId(rs.getLong("member_id"))
+                            .orderNumber(rs.getString("order_number"))
+                            .orderName(rs.getString("order_name"))
+                            .status(OrderStatus.valueOf(rs.getString("status")))
+                            .modifiedAt(rs.getTimestamp("modified_at").toLocalDateTime())
+                            .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
+                            .build()
+            );
         });
 
         return orderList;

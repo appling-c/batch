@@ -20,24 +20,18 @@ public class OrderItemRepository {
 
         List<String> orderIdAsStringList = orderIdList.stream().map(o -> String.valueOf(o)).collect(Collectors.toList());
         applingJdbcTemplate.query("select * from order_item where status = 'ORDERED' and order_id in (" + String.join(",", orderIdAsStringList) + ")", rs -> {
-            while (rs.next()) {
-                try {
-                    orderItemList.add(
-                            OrderItem.builder()
-                                    .id(rs.getLong("order_item_id"))
-                                    .orderProductId(rs.getLong("order_product_id"))
-                                    .productPrice(rs.getInt("product_price"))
-                                    .productTotalPrice(rs.getInt("product_total_price"))
-                                    .ea(rs.getInt("ea"))
-                                    .status(OrderItemStatus.valueOf(rs.getString("status")))
-                                    .modifiedAt(rs.getTimestamp("modified_at").toLocalDateTime())
-                                    .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
-                                    .build()
-                    );
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
+                orderItemList.add(
+                        OrderItem.builder()
+                                .id(rs.getLong("order_item_id"))
+                                .orderProductId(rs.getLong("order_product_id"))
+                                .productPrice(rs.getInt("product_price"))
+                                .productTotalPrice(rs.getInt("product_total_price"))
+                                .ea(rs.getInt("ea"))
+                                .status(OrderItemStatus.valueOf(rs.getString("status")))
+                                .modifiedAt(rs.getTimestamp("modified_at").toLocalDateTime())
+                                .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
+                                .build()
+                );
         });
 
         return orderItemList;

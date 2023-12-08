@@ -21,18 +21,16 @@ public class OptionRepository {
 
         List<String> optionIdAsStringList = optionProductIdList.stream().map(o -> String.valueOf(o)).collect(Collectors.toList());
         applingJdbcTemplate.query("select * from options where product_id in (" + String.join(",", optionIdAsStringList) + ")", rs -> {
-            while (rs.next()) {
-                optionList.add(
-                        Option.builder()
-                                .id(rs.getLong("id"))
-                                .name(rs.getString("name"))
-                                .extraPrice(rs.getInt("extra_price"))
-                                .ea(rs.getInt("ea"))
-                                .productId(rs.getLong("product_id"))
-                                .status(OptionStatus.valueOf(rs.getString("status")))
-                                .build()
-                );
-            }
+            optionList.add(
+                    Option.builder()
+                            .id(rs.getLong("id"))
+                            .name(rs.getString("name"))
+                            .extraPrice(rs.getInt("extra_price"))
+                            .ea(rs.getInt("ea"))
+                            .productId(rs.getLong("product_id"))
+                            .status(OptionStatus.valueOf(rs.getString("status")))
+                            .build()
+            );
         });
         return optionList;
     }
