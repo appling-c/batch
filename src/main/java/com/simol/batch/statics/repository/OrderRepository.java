@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class OrderRepository {
     public List<Order> findAllGtNow() {
         List<Order> orderList = new LinkedList<>();
 
-        applingJdbcTemplate.query("select * from orders where status = 'ORDERED'", rs -> {
+        applingJdbcTemplate.query("select * from orders where status = 'ORDERED';", rs -> {
             while (rs.next()) {
                 orderList.add(
                         Order.builder()

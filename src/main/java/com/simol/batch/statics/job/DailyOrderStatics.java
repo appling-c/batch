@@ -1,7 +1,10 @@
 package com.simol.batch.statics.job;
 
+import com.simol.batch.statics.domain.Option;
 import com.simol.batch.statics.domain.OrderItem;
 import com.simol.batch.statics.domain.Product;
+import com.simol.batch.statics.domain.ProductType;
+import com.simol.batch.statics.repository.OptionRepository;
 import com.simol.batch.statics.repository.OrderItemRepository;
 import com.simol.batch.statics.repository.OrderRepository;
 import com.simol.batch.job.statics.domain.Order;
@@ -29,6 +32,7 @@ public class DailyOrderStatics {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
+    private final OptionRepository optionRepository;
 
     @Bean
     public Job staticsJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
@@ -56,9 +60,15 @@ public class DailyOrderStatics {
                 List<Long> orderProductIdList = orderItemList.stream().mapToLong(OrderItem::getOrderProductId).boxed().collect(Collectors.toList());
 
                 List<Product> productList = productRepository.findAllById(orderProductIdList);
+                List<Product> normalProductList = productList.stream().filter(p -> p.getType() == ProductType.NORMAL).collect(Collectors.toList());
+
                 //todo 옵션 리스트도 불러와야 함
+                List<Product> optionProductList = productList.stream().filter(p -> p.getType() == ProductType.OPTION).collect(Collectors.toList());
+                List<Long> optionProductIdList = optionProductList.stream().mapToLong(Product::getId).boxed().collect(Collectors.toList());
+                List<Option> optionList = optionRepository.findAllByProduct(optionProductIdList);
 
                 //todo 옵션 1개를 상품 1개로 봐야 됨
+                System.out.println("테스트");
             }
 
 

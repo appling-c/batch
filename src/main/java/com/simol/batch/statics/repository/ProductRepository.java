@@ -1,6 +1,7 @@
 package com.simol.batch.statics.repository;
 
 import com.simol.batch.statics.domain.Product;
+import com.simol.batch.statics.domain.ProductType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -36,6 +37,7 @@ public class ProductRepository {
                                 .origin(rs.getString("origin"))
                                 .producer(rs.getString("producer"))
                                 .mainImage(rs.getString("main_image"))
+                                .type(ProductType.valueOf(rs.getString("type")))
                                 .image1(rs.getString("image1"))
                                 .image2(rs.getString("image2"))
                                 .image3(rs.getString("image3"))

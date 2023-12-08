@@ -1,6 +1,6 @@
 package com.simol.batch.statics.domain;
 
-public enum ProductType {
+public enum OptionStatus {
     NORMAL,
-    OPTION,
+    DELETE,
 }
