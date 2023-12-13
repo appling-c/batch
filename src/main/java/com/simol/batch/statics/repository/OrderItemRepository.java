@@ -17,7 +17,9 @@ public class OrderItemRepository {
 
     public List<OrderItem> findAllByOrderId(List<Long> orderIdList) {
         List<OrderItem> orderItemList = new LinkedList<>();
-
+        if(orderIdList.isEmpty()) {
+            return orderItemList;
+        }
         List<String> orderIdAsStringList = orderIdList.stream().map(o -> String.valueOf(o)).collect(Collectors.toList());
         applingJdbcTemplate.query("select * from order_item where status = 'ORDERED' and order_id in (" + String.join(",", orderIdAsStringList) + ")", rs -> {
                 orderItemList.add(

@@ -19,11 +19,14 @@ public class ProductRepository {
     public List<Product> findAllById(List<Long> productIdList) {
         List<Product> productList = new LinkedList<>();
 
+        if(productIdList.isEmpty()) {
+            return productList;
+        }
         List<String> productIdAsStringList = productIdList.stream().map(o -> String.valueOf(o)).collect(Collectors.toList());
-        applingJdbcTemplate.query("select * from product where id in (" + String.join(",", productIdAsStringList) + ")", rs -> {
+        applingJdbcTemplate.query("select * from product where product_id in (" + String.join(",", productIdAsStringList) + ")", rs -> {
             productList.add(
                     Product.builder()
-                            .id(rs.getLong("id"))
+                            .id(rs.getLong("product_id"))
                             .sellerId(rs.getLong("seller_id"))
                             .categoryId(rs.getLong("category_id"))
                             .mainTitle(rs.getString("main_title"))

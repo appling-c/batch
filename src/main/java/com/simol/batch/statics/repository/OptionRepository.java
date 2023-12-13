@@ -18,12 +18,15 @@ public class OptionRepository {
 
     public List<Option> findAllByProduct(List<Long> optionProductIdList) {
         List<Option> optionList = new LinkedList<>();
+        if(optionProductIdList.isEmpty()) {
+            return optionList;
+        }
 
         List<String> optionIdAsStringList = optionProductIdList.stream().map(o -> String.valueOf(o)).collect(Collectors.toList());
         applingJdbcTemplate.query("select * from options where product_id in (" + String.join(",", optionIdAsStringList) + ")", rs -> {
             optionList.add(
                     Option.builder()
-                            .id(rs.getLong("id"))
+                            .id(rs.getLong("option_id"))
                             .name(rs.getString("name"))
                             .extraPrice(rs.getInt("extra_price"))
                             .ea(rs.getInt("ea"))
