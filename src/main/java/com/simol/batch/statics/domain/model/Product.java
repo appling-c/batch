@@ -1,4 +1,4 @@
-package com.simol.batch.statics.domain;
+package com.simol.batch.statics.domain.model;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.simol.batch.job.statics.domain;
+package com.simol.batch.statics.domain.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +11,7 @@ public class Order {
     private Long id;
     private Long memberId;
     private String orderNumber;
-    private com.simol.batch.job.statics.domain.OrderStatus status;
+    private OrderStatus status;
     private String orderName;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

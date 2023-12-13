@@ -1,13 +1,13 @@
 package com.simol.batch.statics.job;
 
-import com.simol.batch.statics.domain.Option;
-import com.simol.batch.statics.domain.OrderItem;
-import com.simol.batch.statics.domain.Product;
-import com.simol.batch.statics.domain.ProductType;
+import com.simol.batch.statics.domain.model.Option;
+import com.simol.batch.statics.domain.model.OrderItem;
+import com.simol.batch.statics.domain.model.Product;
+import com.simol.batch.statics.domain.model.ProductType;
 import com.simol.batch.statics.repository.OptionRepository;
 import com.simol.batch.statics.repository.OrderItemRepository;
 import com.simol.batch.statics.repository.OrderRepository;
-import com.simol.batch.job.statics.domain.Order;
+import com.simol.batch.statics.domain.model.Order;
 import com.simol.batch.statics.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

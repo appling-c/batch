@@ -1,4 +1,4 @@
-package com.simol.batch.job.statics.domain;
+package com.simol.batch.statics.domain.model;
 
 public enum OrderStatus {
     TEMP,   //임시 주문

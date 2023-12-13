@@ -1,7 +1,7 @@
 package com.simol.batch.statics.repository;
 
-import com.simol.batch.statics.domain.Product;
-import com.simol.batch.statics.domain.ProductType;
+import com.simol.batch.statics.domain.model.Product;
+import com.simol.batch.statics.domain.model.ProductType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

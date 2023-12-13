@@ -1,7 +1,7 @@
 package com.simol.batch.statics.repository;
 
-import com.simol.batch.statics.domain.OrderItem;
-import com.simol.batch.statics.domain.OrderItemStatus;
+import com.simol.batch.statics.domain.model.OrderItem;
+import com.simol.batch.statics.domain.model.OrderItemStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

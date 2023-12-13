@@ -1,12 +1,11 @@
 package com.simol.batch.statics.repository;
 
-import com.simol.batch.job.statics.domain.Order;
-import com.simol.batch.job.statics.domain.OrderStatus;
+import com.simol.batch.statics.domain.model.Order;
+import com.simol.batch.statics.domain.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
