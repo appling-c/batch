@@ -8,15 +8,22 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 @Configuration
@@ -26,24 +33,28 @@ public class DailyOrderStatics {
     private final OrderEntityRepository orderEntityRepository;
 
     @Bean
-    public Job staticsJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+    public Job staticsJob(JobRepository jobRepository, PlatformTransactionManager transactionManager, @Qualifier("staticsStep") Step staticsStep) {
         return new JobBuilder("dailyOrderStaticsJob", jobRepository)
-                .start(staticsStep(jobRepository, transactionManager))
+                .start(staticsStep)
                 .build();
     }
 
     @Bean
-    public Step staticsStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+    public Step staticsStep(JobRepository jobRepository, PlatformTransactionManager transactionManager, @Qualifier("staticsTasklet") Tasklet staticsTasklet) {
         return new StepBuilder("dailyOrderStaticsStep", jobRepository)
-                .tasklet(staticsTasklet(), transactionManager)
+                .tasklet(staticsTasklet, transactionManager)
                 .build();
     }
 
+    @Bean
     public Tasklet staticsTasklet() {
         return (contribution, chunkContext) -> {
-
             log.info("statics job 실행...");
-            LocalDateTime now = LocalDateTime.of(2023, 12, 1, 0, 0, 0);
+            StepContext stepContext = chunkContext.getStepContext();
+            Map<String, Object> jobParameters = stepContext.getJobParameters();
+            String date = jobParameters.get("date").toString();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            LocalDate now = LocalDate.parse(date, formatter);
             int year = now.getYear();
             int month = now.getMonthValue();
             int day = now.getDayOfMonth();
